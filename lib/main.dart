@@ -8,8 +8,7 @@ import 'features/alarm/presentation/providers/alarm_provider.dart';
 import 'features/map/presentation/providers/map_provider.dart';
 import 'features/notification/presentation/services/notification_service.dart';
 import 'features/alarm/presentation/screens/alarm_list_screen.dart';
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+import 'features/geofence/presentation/services/geofence_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +18,13 @@ void main() async {
 
   // 初始化通知
   await NotificationService.instance.initialize();
+
+  // 初始化地理围栏
+  try {
+    await GeofenceManager.instance.initialize();
+  } catch (e) {
+    print('地理围栏初始化失败：$e');
+  }
 
   runApp(const LocationAlarmApp());
 }
