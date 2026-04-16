@@ -10,9 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # 高德地图 (暂时注释，最后配置 Key 时启用)
-  # amap_flutter_map: ^10.0.0
-  # amap_flutter_location: ^10.0.0
+  # 百度地图
+  flutter_bmap: ^0.0.4
 
   # 定位与地理围栏
   location: ^5.0.0

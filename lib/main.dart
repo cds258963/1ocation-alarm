@@ -10,6 +10,9 @@ import 'features/notification/presentation/services/notification_service.dart';
 import 'features/alarm/presentation/screens/alarm_list_screen.dart';
 import 'features/geofence/presentation/services/geofence_manager.dart';
 
+// TODO: 百度地图初始化（配置 Key 后启用）
+// import 'package:flutter_bmap/flutter_bmap.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -25,6 +28,9 @@ void main() async {
   } catch (e) {
     print('地理围栏初始化失败：$e');
   }
+
+  // TODO: 初始化百度地图（配置 Key 后启用）
+  // await BMapSDK.init('你的百度地图 AK');
 
   runApp(const LocationAlarmApp());
 }

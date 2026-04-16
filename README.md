@@ -40,9 +40,10 @@ cd location-alarm
 # 2. 安装依赖
 flutter pub get
 
-# 3. 配置高德地图 Key（必需）
+# 3. 配置百度地图 Key（必需）
 # 编辑 android/app/src/main/AndroidManifest.xml
-# 添加你的 Android API Key
+# 添加你的百度地图 AK
+# 详细配置：docs/BMAP_CONFIG.md
 
 # 4. 运行应用
 flutter run
@@ -57,7 +58,7 @@ flutter run
 | 组件 | 技术 |
 |------|------|
 | 框架 | Flutter 3.x |
-| 地图 | 高德地图 SDK |
+| 地图 | **百度地图 SDK** |
 | 状态管理 | Provider |
 | 架构 | Clean Architecture |
 | 数据库 | SQLite (sqflite) |
@@ -115,25 +116,27 @@ lib/
 
 ---
 
-## 🔧 配置高德地图 Key
+## 🔧 配置百度地图 Key
 
-### 1. 获取 Key
+### 1. 获取 AK
 
-1. 访问 [高德开放平台](https://lbs.amap.com/)
-2. 创建应用 → 添加 Key
-3. 服务平台：Android
+1. 访问 [百度地图开放平台](https://lbsyun.baidu.com/)
+2. 登录 → 控制台 → 创建应用
+3. 添加 Key：Android SDK
 4. 包名：`com.example.location_alarm`
 5. SHA1 签名：`./gradlew signingReport`
 
-### 2. 配置 Key
+### 2. 配置 AK
 
 编辑 `android/app/src/main/AndroidManifest.xml`：
 
 ```xml
 <meta-data
-    android:name="com.amap.api.v2.apikey"
-    android:value="你的 Key" />
+    android:name="com.baidu.lbsapi.API_KEY"
+    android:value="你的 AK" />
 ```
+
+**详细配置：** [docs/BMAP_CONFIG.md](docs/BMAP_CONFIG.md)
 
 ---
 

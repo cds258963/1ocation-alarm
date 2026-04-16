@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/alarm_provider.dart';
 import '../widgets/alarm_card.dart';
-import '../../../map/presentation/screens/map_screen.dart';
+import '../../../map/presentation/screens/bmap_screen.dart';
 
 class AlarmListScreen extends StatelessWidget {
   const AlarmListScreen({super.key});
