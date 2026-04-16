@@ -1,0 +1,60 @@
+name: location_alarm
+description: 位置闹钟 - 基于地理围栏的位置提醒应用
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # 高德地图 (暂时注释，最后配置 Key 时启用)
+  # amap_flutter_map: ^10.0.0
+  # amap_flutter_location: ^10.0.0
+
+  # 定位与地理围栏
+  location: ^5.0.0
+  geofencing: ^0.1.0
+
+  # 通知
+  flutter_local_notifications: ^16.0.0
+
+  # 数据库
+  sqflite: ^2.3.0
+  path_provider: ^2.1.0
+  path: ^1.8.3
+
+  # 状态管理
+  provider: ^6.1.0
+
+  # 权限
+  permission_handler: ^11.0.0
+
+  # 工具
+  intl: ^0.18.0
+  uuid: ^4.0.0
+  shared_preferences: ^2.2.0
+  equatable: ^2.0.5
+
+  # UI
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
+        - asset: fonts/Roboto-Bold.ttf
+          weight: 700
