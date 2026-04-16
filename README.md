@@ -1,128 +1,68 @@
 # 📍 位置闹钟 (Location Alarm)
 
-基于 Flutter 的地理围栏提醒应用，支持 Android 优先，保留 iOS 扩展性。
+一款基于地理围栏的 Flutter 位置提醒应用，当到达或离开指定地点时自动通知。
+
+**Android 优先 · 保留 iOS 扩展性**
 
 ---
 
-## 🎯 项目目标
+## ✨ 功能特性
 
-在地图上设置位置，当手机进入/离开该区域时自动提醒。
-
-**核心功能：**
-- 地图选点设置闹钟
-- 自定义提醒半径（250m - 3000m）
-- 进入/离开区域触发提醒
-- 后台位置监控
-- 推送通知 + 语音提醒
+- 🗺️ **地图选点** - 在地图上选择提醒位置
+- 🎯 **自定义半径** - 250m ~ 3000m 可调
+- 🔔 **智能提醒** - 进入/离开区域自动通知
+- ⏰ **周期设置** - 支持时间段和日期设置
+- 🔋 **省电优化** - 三种监控模式可选
+- 📱 **后台监控** - 持续位置追踪
 
 ---
 
-## 🛠️ 技术栈
+## 📸 应用截图
 
-| 组件 | 技术选型 |
-|------|----------|
-| 框架 | Flutter 3.x (Dart) |
-| 地图 | 高德地图 Flutter SDK (`amap_flutter_map`) |
-| 定位 | `location` 插件 + 后台定位服务 |
-| 地理围栏 | `geofencing` 插件 |
-| 通知 | `flutter_local_notifications` |
-| 数据库 | `sqflite` (本地存储闹钟配置) |
-| 状态管理 | Provider / Riverpod |
-
----
-
-## 📦 环境要求
-
-### 开发环境
-- Flutter SDK 3.0+
-- Android Studio / VS Code
-- Android SDK 21+
-- JDK 11+
-
-### 高德地图配置
-1. 注册高德开放平台账号：https://lbs.amap.com/
-2. 创建应用，获取 API Key：
-   - **Android Key**：包名_签名 (如：com.example.location_alarm_XXX)
-   - **iOS Key**：Bundle ID_签名 (后期扩展用)
+> 待添加实际运行截图
 
 ---
 
 ## 🚀 快速开始
 
-### 1. 安装 Flutter (Linux)
+### 环境要求
+- Flutter SDK 3.0+
+- Android SDK 21+
+- JDK 11+
+
+### 安装步骤
 
 ```bash
-# 安装依赖
-sudo apt update
-sudo apt install -y git curl unzip wget libgtk-3-dev clang cmake ninja-build pkg-config
+# 1. 克隆项目
+git clone git@github.com:cds258963/1ocation-alarm.git
+cd location-alarm
 
-# 方式一：Snap 安装（推荐）
-sudo snap install flutter --classic
+# 2. 安装依赖
+flutter pub get
 
-# 方式二：手动安装
-cd ~
-git clone https://github.com/flutter/flutter.git -b stable
-echo 'export PATH="$HOME/flutter/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
+# 3. 配置高德地图 Key（必需）
+# 编辑 android/app/src/main/AndroidManifest.xml
+# 添加你的 Android API Key
 
-# 验证安装
-flutter doctor
+# 4. 运行应用
+flutter run
 ```
 
-### 2. 创建项目
+**详细指南：** [QUICK_START.md](QUICK_START.md)
 
-```bash
-flutter create --org com.example --project-name location_alarm
-cd location_alarm
-```
+---
 
-### 3. 添加依赖
+## 🛠️ 技术栈
 
-`pubspec.yaml`:
-```yaml
-dependencies:
-  flutter:
-    sdk: flutter
-  
-  # 高德地图
-  amap_flutter_map: ^10.0.0
-  amap_flutter_location: ^10.0.0
-  
-  # 定位与地理围栏
-  location: ^5.0.0
-  geofencing: ^0.1.0
-  
-  # 通知
-  flutter_local_notifications: ^16.0.0
-  
-  # 数据存储
-  sqflite: ^2.3.0
-  path_provider: ^2.1.0
-  
-  # 状态管理
-  provider: ^6.1.0
-  
-  # 权限处理
-  permission_handler: ^11.0.0
-```
-
-### 4. 配置高德地图 Key
-
-**Android**: `android/app/src/main/AndroidManifest.xml`
-```xml
-<application>
-    <!-- 高德地图 API Key -->
-    <meta-data
-        android:name="com.amap.api.v2.apikey"
-        android:value="你的 Android Key" />
-    
-    <!-- 必要权限 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-</application>
-```
+| 组件 | 技术 |
+|------|------|
+| 框架 | Flutter 3.x |
+| 地图 | 高德地图 SDK |
+| 状态管理 | Provider |
+| 架构 | Clean Architecture |
+| 数据库 | SQLite (sqflite) |
+| 定位 | location 插件 |
+| 通知 | flutter_local_notifications |
 
 ---
 
@@ -130,141 +70,105 @@ dependencies:
 
 ```
 lib/
-├── main.dart                    # 入口 + 初始化
-├── config/
-│   ├── api_keys.dart           # 高德 Key 配置
-│   └── constants.dart          # 常量定义
-├── models/
-│   ├── alarm.dart              # 闹钟数据模型
-│   └── geofence.dart           # 地理围栏模型
-├── services/
-│   ├── location_service.dart   # 定位服务
-│   ├── geofence_service.dart   # 地理围栏管理
-│   ├── notification_service.dart # 通知服务
-│   └── database_service.dart   # 本地数据库
-├── providers/
-│   ├── alarm_provider.dart     # 闹钟状态管理
-│   └── location_provider.dart  # 位置状态管理
-├── screens/
-│   ├── home_screen.dart        # 主页（地图选点）
-│   ├── alarm_list_screen.dart  # 闹钟列表
-│   ├── alarm_detail_screen.dart # 闹钟详情
-│   └── settings_screen.dart    # 设置页
-├── widgets/
-│   ├── map_picker.dart         # 地图选点组件
-│   ├── alarm_card.dart         # 闹钟卡片
-│   └── radius_slider.dart      # 半径选择器
-└── utils/
-    ├── permissions.dart        # 权限请求
-    └── helpers.dart            # 工具函数
+├── main.dart                    # 应用入口
+├── core/                        # 核心层
+│   ├── constants/               # 常量定义
+│   └── theme/                   # 主题配置
+├── di/                          # 依赖注入
+└── features/                    # 功能模块
+    ├── alarm/                   # 闹钟功能
+    ├── geofence/                # 地理围栏
+    ├── map/                     # 地图功能
+    ├── notification/            # 通知功能
+    └── settings/                # 设置功能
 ```
 
 ---
 
-## 🔑 核心功能实现
+## 📋 开发计划
 
-### 1. 初始化高德地图
+- [x] 项目架构搭建
+- [x] 闹钟 CRUD 功能
+- [x] UI 页面实现
+- [x] 地理围栏服务
+- [x] 通知系统
+- [ ] 高德地图集成（需配置 Key）
+- [ ] POI 搜索
+- [ ] 语音播报
+- [ ] 数据统计
+- [ ] iOS 版本
 
-```dart
-// lib/main.dart
-import 'package:amap_flutter_map/amap_flutter_map.dart';
+**详细计划：** [DEVELOPMENT_PLAN.md](DEVELOPMENT_PLAN.md)
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  
-  // 设置高德地图 API Key
-  await AmapFlutterMap.getInstance().init(
-    iosApiKey: '你的 iOS Key',     // 后期扩展
-    androidApiKey: '你的 Android Key',
-  );
-  
-  runApp(const LocationAlarmApp());
-}
-```
+---
 
-### 2. 创建地理围栏
+## 📖 文档
 
-```dart
-// lib/services/geofence_service.dart
-import 'package:geofencing/geofencing.dart';
+| 文档 | 说明 |
+|------|------|
+| [QUICK_START.md](QUICK_START.md) | 5 分钟快速开始 |
+| [SETUP_GUIDE.md](SETUP_GUIDE.md) | 详细环境配置 |
+| [FEATURES.md](docs/FEATURES.md) | 功能规格说明 |
+| [UI_DESIGN.md](docs/UI_DESIGN.md) | UI 设计文档 |
+| [TECH_ARCH.md](docs/TECH_ARCH.md) | 技术架构文档 |
+| [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) | 项目完成总结 |
 
-class GeofenceService {
-  final Geofencing _geofencing = Geofencing();
-  
-  Future<void> createGeofence({
-    required String id,
-    required double latitude,
-    required double longitude,
-    required double radius,
-  }) async {
-    await _geofencing.addGeofence(
-      id: id,
-      latitude: latitude,
-      longitude: longitude,
-      radius: radius,
-      onEnter: () => _onEnter(id),
-      onExit: () => _onExit(id),
-    );
-  }
-  
-  void _onEnter(String id) {
-    // 触发进入提醒
-    NotificationService.showNotification(
-      title: '到达目的地',
-      body: '您已进入闹钟区域',
-    );
-  }
-  
-  void _onExit(String id) {
-    // 触发离开提醒
-    NotificationService.showNotification(
-      title: '离开提醒',
-      body: '您已离开闹钟区域',
-    );
-  }
-}
-```
+---
 
-### 3. 后台定位配置
+## 🔧 配置高德地图 Key
 
-```dart
-// Android: android/app/src/main/AndroidManifest.xml
-<application>
-    <!-- 前台服务通知 -->
-    <service
-        android:name="id.flutter.geofencing.GeofencingPlugin"
-        android:enabled="true"
-        android:exported="true"
-        android:foregroundServiceType="location" />
-</application>
+### 1. 获取 Key
+
+1. 访问 [高德开放平台](https://lbs.amap.com/)
+2. 创建应用 → 添加 Key
+3. 服务平台：Android
+4. 包名：`com.example.location_alarm`
+5. SHA1 签名：`./gradlew signingReport`
+
+### 2. 配置 Key
+
+编辑 `android/app/src/main/AndroidManifest.xml`：
+
+```xml
+<meta-data
+    android:name="com.amap.api.v2.apikey"
+    android:value="你的 Key" />
 ```
 
 ---
 
-## 📝 开发清单
+## 📦 构建发布
 
-- [ ] 环境搭建（Flutter + Android Studio）
-- [ ] 高德地图 Key 申请
-- [ ] 项目初始化
-- [ ] 地图选点功能
-- [ ] 闹钟创建/编辑/删除
-- [ ] 地理围栏后台监控
-- [ ] 推送通知
-- [ ] 本地数据库存储
-- [ ] 权限处理（定位、后台运行）
-- [ ] 电池优化适配
-- [ ] UI/UX 优化
-- [ ] 测试与发布
+```bash
+# 调试版本
+flutter build apk
+
+# 发布版本
+flutter build apk --release
+
+# 输出路径
+build/app/outputs/flutter-apk/app-release.apk
+```
 
 ---
 
-## 🔗 参考资源
+## 🤝 贡献
 
-- Flutter 官网：https://flutter.dev
-- 高德开放平台：https://lbs.amap.com/
-- Flutter 高德插件：https://pub.dev/packages/amap_flutter_map
-- 地理围栏插件：https://pub.dev/packages/geofencing
+欢迎提交 Issue 和 Pull Request！
 
 ---
 
-**下一步：** 安装 Flutter 环境，创建项目仓库
+## 📄 许可证
+
+MIT License
+
+---
+
+## 📞 联系方式
+
+- **GitHub:** https://github.com/cds258963/1ocation-alarm
+- **问题反馈:** [创建 Issue](https://github.com/cds258963/1ocation-alarm/issues)
+
+---
+
+**Made with ❤️ using Flutter**
